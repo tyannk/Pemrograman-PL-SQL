@@ -1,0 +1,130 @@
+CREATE TABLE  "SUPPLIER" (	
+"ID_SUPPLIER" VARCHAR2(10), 
+"NAMA" VARCHAR2(20), 
+"NO_TELP" VARCHAR2(15), 
+"ALAMAT" VARCHAR2(50), 
+CONSTRAINT "PK_ID_SUPPLIER" PRIMARY KEY ("ID_SUPPLIER") ENABLE
+)
+
+CREATE TABLE  "BUKU" (	
+"ID_BUKU" VARCHAR2(10), 
+"ID_JENIS" VARCHAR2(2), 
+"ID_SUPPLIER" VARCHAR2(10), 
+"JUDUL" VARCHAR2(100), 
+"PENGARANG" VARCHAR2(30), 
+"HARGA" VARCHAR2(15), 
+"STOCK" NUMBER(*,0), 
+CONSTRAINT "PK_ID_BUKU" PRIMARY KEY ("ID_BUKU") ENABLE, 
+CONSTRAINT "BUKU#ID_SUPPLIER" FOREIGN KEY ("ID_SUPPLIER")
+REFERENCES  "SUPPLIER" ("ID_SUPPLIER") ENABLE
+)
+
+
+INSERT INTO SUPPLIER (id_supplier,nama,no_telp,alamat) VALUES ('SP-001','PT.Sidogiri','022-8768509','Jl.Ruwet Gg.Buntet No.34 Bandung')
+
+INSERT INTO SUPPLIER (id_supplier,nama,no_telp,alamat) VALUES ('SP-002','PT.Moroseneng','021-8695465','Jl.Badak Jawa No.6 Jakarta')
+
+INSERT INTO SUPPLIER (id_supplier,nama,no_telp,alamat) VALUES ('SP-003','PT.Suka-Suka','031-4568698','Jl.Darmo No.7 Surabaya')
+
+INSERT INTO SUPPLIER (id_supplier,nama,no_telp,alamat) VALUES ('SP-004','PT.Sukabaca','022-9797966','Jl.Sukabirus No.9 Bandung')
+
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-001','IT','SP-002','10 Langkah Belajar Logika & Algoritma Menggunakan Bahasa C++','Ema Utami','Rp.27.375',10)
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-002','IT','SP-001','10 Langkah Mempelajari Lotus Notes 4.5','Jane Calabria','Rp.9.180',34)
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-003','BH','SP-004','Kamus Bahasa Inggris','Jubilee Enterprise','Rp.15.980',65)
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-004','IT','SP-001','101 Tip & Trik Adobe Photoshop','Gregorius Agung','Rp.16.830',26)
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-005','BI','SP-001','101 Tip & Trik Belajar Anatomi Manusia','Gregorius Agung','Rp.19.380',84)
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-006','IT','SP-002','101 Tip & Trik Ms.Access Project 2003 & Sql Server 2000','Hengky Alexander M.','Rp.16.830',36)
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-007','MN','SP-002','Konsep-Konsep Marketing','Anwar Khaidir','Rp.12.580',26)
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-008','AG','SP-004','Renungan Jumat','Abdurrahma Arroisi','Rp.31.280',6)
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-009','UM','SP-003','11 Langkah Menjadi Sahabat Ana','V.Dwiyani','Rp.19.380',2)
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-010','IT','SP-002','12 Kreasi Logo Dengan Adobe Illustrator CS2','Jubilee Enterprise','Rp.27.880',88)
+
+INSERT INTO buku (id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock) VALUES ('BK-011','UM','SP-004','13 Cara Praktis Memetik Sukses','R. Henry Prasetyo','Rp.16.830',25)
+
+
+
+DECLARE 
+vid_buku      buku.id_buku%TYPE;
+vid_jenis     buku.id_jenis%TYPE;
+vjudul        buku.judul%TYPE;
+vpengarang    buku.pengarang%TYPE;
+vharga        buku.harga%TYPE;
+vstock        buku.stock%TYPE;
+vid_supplier  buku.id_supplier%TYPE;
+vnama         supplier.nama%TYPE;
+vno_telp      supplier.no_telp%TYPE;
+valamat       supplier.alamat%TYPE;
+
+BEGIN
+SELECT buku.id_buku,buku.id_jenis,buku.id_supplier,buku.judul,buku.pengarang,buku.harga,buku.stock,supplier.nama,supplier.no_telp,supplier.alamat INTO vid_buku,vid_jenis,vid_supplier,vjudul,vpengarang,vharga,vstock,vnama,vno_telp,valamat FROM buku INNER JOIN supplier ON buku.id_supplier = supplier.id_supplier WHERE id_buku = 'BK-002';
+DBMS_OUTPUT.PUT_LINE('id_buku         :'||vid_buku);
+DBMS_OUTPUT.PUT_LINE('id_jenis        :'||vid_jenis);
+DBMS_OUTPUT.PUT_LINE('judul           :'||vjudul);
+DBMS_OUTPUT.PUT_LINE('pengarang       :'||vpengarang);
+DBMS_OUTPUT.PUT_LINE('harga           :'||vharga);
+DBMS_OUTPUT.PUT_LINE('stock           :'||vstock);
+DBMS_OUTPUT.PUT_LINE('id_supplier     :'||vid_supplier);
+DBMS_OUTPUT.PUT_LINE('nama supplier   :'||vnama);
+DBMS_OUTPUT.PUT_LINE('no tlp supplier :'||vno_telp);
+DBMS_OUTPUT.PUT_LINE('alamat supplier :'||valamat);
+
+END;
+
+DECLARE 
+vid_buku      buku.id_buku%TYPE;
+vid_jenis     buku.id_jenis%TYPE;
+vid_supplier  buku.id_supplier%TYPE;
+vjudul        buku.judul%TYPE;
+vpengarang    buku.pengarang%TYPE;
+vharga        buku.harga%TYPE;
+vstock        buku.stock%TYPE;
+
+CURSOR cur1 is 
+SELECT id_buku,id_jenis,id_supplier,judul,pengarang,harga,stock FROM buku;
+BEGIN
+OPEN cur1;
+FETCH cur1 INTO vid_buku,vid_jenis,vid_supplier,vjudul,vpengarang,vharga,vstock;
+WHILE cur1%FOUND LOOP
+DBMS_OUTPUT.PUT_LINE('id_buku         :'||vid_buku);
+DBMS_OUTPUT.PUT_LINE('id_jenis        :'||vid_jenis);
+DBMS_OUTPUT.PUT_LINE('id_supplier     :'||vid_supplier);
+DBMS_OUTPUT.PUT_LINE('judul           :'||vjudul);
+DBMS_OUTPUT.PUT_LINE('pengarang       :'||vpengarang);
+DBMS_OUTPUT.PUT_LINE('harga           :'||vharga);
+DBMS_OUTPUT.PUT_LINE('stock           :'||vstock);
+DBMS_OUTPUT.PUT_LINE(' ');
+FETCH cur1 INTO vid_buku,vid_jenis,vid_supplier,vjudul,vpengarang,vharga,vstock;
+
+END LOOP;
+CLOSE cur1;
+END;
+
+DECLARE 
+v_idsupplier   supplier.id_supplier%TYPE;
+v_nama         supplier.nama%TYPE;
+v_no_telp      supplier.no_telp%TYPE;
+v_alamat       supplier.alamat%TYPE;
+
+BEGIN 
+SELECT id_supplier,nama,no_telp,alamat INTO v_idsupplier,v_nama,v_no_telp,v_alamat FROM supplier WHERE id_supplier = 'SP-002' ORDER BY id_supplier ; 
+IF SQL%NOTFOUND THEN 
+DBMS_OUTPUT.PUT_LINE('Nama Supplier Tidak Ditemukan'); 
+ELSE
+DBMS_OUTPUT.PUT_LINE('Daftar Nama Supplier yang id suppliernya SP-002:'); 
+DBMS_OUTPUT.PUT_LINE(v_nama); 
+END IF; 
+END; 
+
+
+
+
